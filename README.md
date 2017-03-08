@@ -1,4 +1,4 @@
-# Whitespace
+# Flask-docker boilerplate
 
 ## Setup:
   - Install Docker Toolbox @ https://github.com/docker/toolbox/releases/tag/v1.12.5
