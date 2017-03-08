@@ -9,9 +9,9 @@ services:
             - "80:80"
     app:
         build: .
+        expose:
+            - "5000"
         command: python -u /whitespace/w-app/app.py
-        ports:
-            - "5000:5000"
         volumes:
             - ./w-app:/whitespace/w-app
         depends_on:
