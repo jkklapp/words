@@ -2,11 +2,9 @@ version: "2"
 
 services:
     nginx:
-        image: nginx:latest
+        build: ./w-nginx
         links: 
             - app:app
-        volumes:
-            - ./w-nginx/default.conf:/etc/nginx/conf.d/default.conf
         ports:
             - "80:80"
     app:
@@ -14,8 +12,6 @@ services:
         expose:
             - "5000"
         command: python -u /whitespace/w-app/app.py
-        volumes:
-            - ./w-app:/whitespace/w-app
         depends_on:
             - db
     db:
