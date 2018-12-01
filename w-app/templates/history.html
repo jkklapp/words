@@ -1,5 +1,23 @@
-{% for item in items %}
-  <span> {{ item.word }} ({{item.count}})</span>
-{% endfor %}
-{{ pagination.links }}
-{{ pagination.info }}
+{% extends "root.html" %}
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block header %}
+    {{ super() }}
+    {% endblock %}  
+  </head>
+  <body>
+    <header>
+      {% block menu %}{{ super() }}{% endblock %}
+    </header>
+    <div class="container">
+      {% block content %}
+      {% for item in items %}
+        <span> {{ item.word }} ({{item.count}})</span>
+      {% endfor %}
+      {{ pagination.links }}
+      {{ pagination.info }}
+      {% endblock %}
+    </div>
+  </body>
+</html>

@@ -1,18 +1,38 @@
-<form action="/process_url" method="POST">
-  <input type="text" name="url"></input>
-  <input type="submit"></input>
-</form>
+{% extends "root.html" %}
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block header %}
+    {{ super() }}
+    {% endblock %}
+  </head>
+  <body>
+    <header>
+        {% block menu %}{{ super() }}{% endblock %}
+    </header>
+    <div class="container">
+      {% block content %}
+      <form action="/process_url" method="POST">
+        <input type="text" name="url"></input>
+        <input type="submit"></input>
+      </form>
+      
+      <form action="/reset" method="POST">
+        <input type="submit">Reset data</input>
+      </form>
+      
+      {% for item in items %}
+        {% if loop.index <= loop.length / 3 %}
+        <span style="font-size: 36px"> {{ item.word }} ({{item.count}})</span>
+        {% elif loop.index <= 2 * loop.length / 3 %}
+        <span style="font-size: 28px"> {{ item.word }} ({{item.count}})</span>
+        {% elif loop.index >= 2 * loop.length / 3 %}
+        <span style="font-size: 18px"> {{ item.word }} ({{item.count}})</span>
+        {% endif %}
+      {% endfor %}
+      {% endblock %}
+    </div>
+  </body>
+</html>
 
-<form action="/reset" method="POST">
-  <input type="submit">Reset data</input>
-</form>
 
-{% for item in items %}
-  {% if loop.index <= loop.length / 3 %}
-  <span style="font-size: 26px"> {{ item.word }} ({{item.count}})</span>
-  {% elif loop.index <= 2 * loop.length / 3 %}
-  <span style="font-size: 18px"> {{ item.word }} ({{item.count}})</span>
-  {% elif loop.index >= 2 * loop.length / 3 %}
-  <span style="font-size: 12px"> {{ item.word }} ({{item.count}})</span>
-  {% endif %}
-{% endfor %}
