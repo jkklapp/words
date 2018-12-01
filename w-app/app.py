@@ -5,8 +5,14 @@ from pymongo import DESCENDING
 import requests
 import re
 from flask_paginate import Pagination
+from flask_basicauth import BasicAuth
 
 app = Flask(__name__)
+
+app.config['BASIC_AUTH_USERNAME'] = 'jaakko'
+app.config['BASIC_AUTH_PASSWORD'] = 'wisdomtree'
+
+basic_auth = BasicAuth(app)
 
 client = MongoClient("db:27017")
 db = client.wordsdb
@@ -59,6 +65,7 @@ def process_url():
 
 
 @app.route('/history')
+@basic_auth.required
 def history():
 
     total = db.wordsdb.find().count()
@@ -85,7 +92,7 @@ def get_page_items():
     page = int(request.args.get('page', 1))
     per_page = request.args.get('per_page')
     if not per_page:
-        per_page = current_app.config.get('PER_PAGE', 10)
+        per_page = current_app.config.get('PER_PAGE', 50)
     else:
         per_page = int(per_page)
 
