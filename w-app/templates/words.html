@@ -1,0 +1,12 @@
+<form action="/process_url" method="POST">
+  <input type="text" name="url"></input>
+  <input type="submit"></input>
+</form>
+
+<form action="/reset" method="POST">
+  <input type="submit">Reset data</input>
+</form>
+
+{% for item in items %}
+  <span style="font-size: {{item.count * 3}}px"> {{ item.word }} ({{item.count}})</span>
+{% endfor %}
