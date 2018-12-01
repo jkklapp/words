@@ -21,15 +21,17 @@
         <input type="submit">Reset data</input>
       </form>
       
-      {% for item in items %}
-        {% if loop.index <= loop.length / 3 %}
-        <span style="font-size: 36px"> {{ item.word }} ({{item.count}})</span>
-        {% elif loop.index <= 2 * loop.length / 3 %}
-        <span style="font-size: 28px"> {{ item.word }} ({{item.count}})</span>
-        {% elif loop.index >= 2 * loop.length / 3 %}
-        <span style="font-size: 18px"> {{ item.word }} ({{item.count}})</span>
-        {% endif %}
-      {% endfor %}
+      <div class="word-cloud">
+        {% for item in items %}
+          {% if loop.index <= loop.length / 3 %}
+          <div class="word big"> {{ item.word }} ({{item.count}})</div>
+          {% elif loop.index <= 2 * loop.length / 3 %}
+          <div class="word medium"> {{ item.word }} ({{item.count}})</div>
+          {% elif loop.index >= 2 * loop.length / 3 %}
+          <div class="word small"> {{ item.word }} ({{item.count}})</div>
+          {% endif %}
+        {% endfor %}
+      </div>
       {% endblock %}
     </div>
   </body>

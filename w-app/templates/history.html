@@ -12,12 +12,16 @@
     </header>
     <div class="container">
       {% block content %}
-      {% for item in items %}
-        <span> {{ item.word }} ({{item.count}})</span>
-      {% endfor %}
-      {{ pagination.links }}
-      {{ pagination.info }}
-      {% endblock %}
+      <div class="word-cloud">
+        {% for item in items %}
+          <div class="word"> {{ item.word }} ({{item.count}})</div>
+        {% endfor %}
+      </div>
     </div>
+    <div class="pagination-container">
+      {{ pagination.links }}
+    </div>
+    {{ pagination.info }}
+    {% endblock %}
   </body>
 </html>
