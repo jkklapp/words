@@ -8,5 +8,11 @@
 </form>
 
 {% for item in items %}
-  <span style="font-size: {{item.count * 3}}px"> {{ item.word }} ({{item.count}})</span>
+  {% if loop.index <= loop.length / 3 %}
+  <span style="font-size: 26px"> {{ item.word }} ({{item.count}})</span>
+  {% elif loop.index <= 2 * loop.length / 3 %}
+  <span style="font-size: 18px"> {{ item.word }} ({{item.count}})</span>
+  {% elif loop.index >= 2 * loop.length / 3 %}
+  <span style="font-size: 12px"> {{ item.word }} ({{item.count}})</span>
+  {% endif %}
 {% endfor %}
