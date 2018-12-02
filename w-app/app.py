@@ -7,6 +7,9 @@ import re
 from flask_paginate import Pagination
 from flask_basicauth import BasicAuth
 
+from worker import celery
+import celery.states as states
+
 app = Flask(__name__)
 
 app.config['BASIC_AUTH_USERNAME'] = 'jaakko'
@@ -42,26 +45,37 @@ def process_url():
     url = request.form['url']
     # TODO(jaakko): validate url
 
-    response = requests.get(url)
-    words = re.findall(r"[\w']+", response.text)
-    
-    for w in words:
-        insert = False
-        doc = db.wordsdb.find_one({'word': w})
-        if not doc:
-            insert = True
-            doc = {
-                'word': w, 'count': 0, 'url': url
-            }
-        
-        doc['count'] = doc['count'] + 1
-
-        if insert is False:
-            db.wordsdb.update({'_id': doc['_id']}, doc, upsert=True)
-        else:
-            db.wordsdb.insert_one(doc)
-
+    task = celery.send_task('tasks.add', args=[url], kwargs={})
     return redirect(url_for('words', url=url))
+    # response = requests.get(url)
+    # words = re.findall(r"[\w']+", response.text)
+    
+    
+    # for w in words:
+    #     insert = False
+    #     doc = db.wordsdb.find_one({'word': w})
+    #     if not doc:
+    #         insert = True
+    #         doc = {
+    #             'word': w, 'count': 0, 'url': url
+    #         }
+        
+    #     doc['count'] = doc['count'] + 1
+
+    #     if insert is False:
+    #         db.wordsdb.update({'_id': doc['_id']}, doc, upsert=True)
+    #     else:
+    #         db.wordsdb.insert_one(doc)
+
+    # return redirect(url_for('words', url=url))
+
+@app.route('/check/<string:task_id>')
+def check_task(task_id: str) -> str:
+    res = celery.AsyncResult(task_id)
+    if res.state == states.PENDING:
+        return res.state
+    else:
+        return str(res.result)
 
 
 @app.route('/history')
