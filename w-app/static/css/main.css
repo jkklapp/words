@@ -8,7 +8,7 @@ body {
 * Formatting the header area
 */
 header {
-    background-color: orange;
+    background-color: #ec7e00;
     height: 35px;
     width: 100%;
     opacity: .9;
@@ -71,7 +71,7 @@ h3 {
     margin-left: 35px;
 }
 .menu li a {
-    color: #444;
+    color: white;
     text-decoration: none;
 }
 
@@ -81,7 +81,7 @@ h3 {
 
 .word {
     color: white;
-    background: #2266ff;
+    background: #416dd4;
     padding: 2px 10px 5px;
     margin-bottom: 5px;
     border-radius: 5px;
@@ -114,6 +114,10 @@ h3 {
     float: left;
     padding: 8px 16px;
     text-decoration: none;
+}
+
+.pagination .active a {
+    font-weight: bold;
 }
 
 .pagination-page-info {
