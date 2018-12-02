@@ -2,8 +2,7 @@ import os
 from flask import Flask, redirect, url_for, request, render_template, current_app
 from pymongo import MongoClient
 from pymongo import DESCENDING
-import requests
-import re
+
 from flask_paginate import Pagination
 from flask_basicauth import BasicAuth
 
@@ -47,27 +46,7 @@ def process_url():
 
     task = celery.send_task('tasks.add', args=[url], kwargs={})
     return redirect(url_for('words', url=url))
-    # response = requests.get(url)
-    # words = re.findall(r"[\w']+", response.text)
     
-    
-    # for w in words:
-    #     insert = False
-    #     doc = db.wordsdb.find_one({'word': w})
-    #     if not doc:
-    #         insert = True
-    #         doc = {
-    #             'word': w, 'count': 0, 'url': url
-    #         }
-        
-    #     doc['count'] = doc['count'] + 1
-
-    #     if insert is False:
-    #         db.wordsdb.update({'_id': doc['_id']}, doc, upsert=True)
-    #     else:
-    #         db.wordsdb.insert_one(doc)
-
-    # return redirect(url_for('words', url=url))
 
 @app.route('/check/<string:task_id>')
 def check_task(task_id: str) -> str:
